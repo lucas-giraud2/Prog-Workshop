@@ -19,3 +19,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE src lib)
 # Link the sil library into the project
 add_subdirectory(lib/sil)
 target_link_libraries(${PROJECT_NAME} PRIVATE sil)
+
+#Ajout de OpenCv
+# find_package(OpenCV REQUIRED)
+# target_include_directories(${PROJECT_NAME} PRIVATE ${OpenCV_INCLUDE_DIRS})
+# target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
