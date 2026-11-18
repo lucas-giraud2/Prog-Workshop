@@ -44,7 +44,7 @@ void degrade(){
             image.pixel(x, y) = glm::vec3{ x/float(image.width()) };
         }
     }
-    image.save("output/ex5.png");
+    image.save("output/degrade.png");
 }
 
 void miroir(sil::Image& image){
@@ -70,7 +70,7 @@ void rota90(sil::Image& image){
             new_image.pixel(new_image.width()-y-1, x) = image.pixel(x, y);
         }
     }
-    new_image.save("output/ex8.png");
+    new_image.save("output/rota90.png");
 }
 
 void rgb_split(sil::Image& image){
@@ -84,7 +84,7 @@ void rgb_split(sil::Image& image){
             new_image.pixel(x, y).g = image.pixel(x, y).g;
         }
     }
-    new_image.save("output/ex9.png");
+    new_image.save("output/rgb_split.png");
 }
 
 void luminosite_assombrir(sil::Image& image){
@@ -157,6 +157,10 @@ void mosaique(sil::Image& image){
     image = new_image;
 }
 
+void mosaique_miroir(sil::Image& image){
+
+}
+
 void glitch(sil::Image& image){
     for (int x{0}; x < image.width(); x++){
         for (int y{0}; y < image.height(); y++){
@@ -198,7 +202,7 @@ void tri(sil::Image& image){
             new_image.pixel(x, y) = v[x+y*new_image.width()];
         }
     }
-    new_image.save("output/ex17.png");
+    new_image.save("output/tri.png");
 }
 
 void fractale(){
@@ -221,7 +225,7 @@ void fractale(){
             }
         }
     }
-    image.save("output/ex18.png");
+    image.save("output/fractale.png");
 }
 
 int main()
@@ -232,28 +236,28 @@ int main()
     // {
     //     sil::Image image{"images/logo.png"};
     //     green_only(image);
-    //     image.save("output/ex1.png");
+    //     image.save("output/green_only.png");
     // }
     
     // //EX2
     // {
     //     sil::Image image{"images/logo.png"};
     //     echange_canaux(image);
-    //     image.save("output/ex2.png");
+    //     image.save("output/echange_canaux.png");
     // }
 
-    // //EX3
+    // // //EX3
     // {
     //     sil::Image image{"images/logo.png"};
     //     gris(image);
-    //     image.save("output/ex3.png");
+    //     image.save("output/gris.png");
     // }
 
     // //EX4
     // {
     //     sil::Image image{"images/logo.png"};
     //     negatif(image);
-    //     image.save("output/ex4.png");
+    //     image.save("output/negatif.png");
     // }
 
     // //EX5
@@ -265,14 +269,14 @@ int main()
     // {
     //     sil::Image image{"images/logo.png"};
     //     miroir(image);
-    //     image.save("output/ex6.png");
+    //     image.save("output/miroir.png");
     // }
 
     // //EX7
     // {
     //     sil::Image image{"images/logo.png"};
     //     bruit(image);
-    //     image.save("output/ex7.png");
+    //     image.save("output/bruit.png");
     // }
 
     // //EX8
@@ -287,69 +291,76 @@ int main()
     //     rgb_split(image);
     // }
     
-    // //EX10 moins de lumière
+    // // //EX10 moins de lumière
     // {
     //     sil::Image image{"images/photo.jpg"};
     //     luminosite_assombrir(image);
-    //     image.save("output/ex10.png");
+    //     image.save("output/luminosite_assombrir.png");
     // }
     
     // //EX10 moins de lumière
     // {
     //     sil::Image image{"images/photo.jpg"};
     //     luminosite_eclaircir(image);
-    //     image.save("output/ex10_2.png");
+    //     image.save("output/luminosite_eclaircir.png");
     // }
 
     // //EX11
     // {
     //     sil::Image image{500/*width*/, 500/*height*/};
     //     disque(image);
-    //     image.save("output/ex11.png");
+    //     image.save("output/disque.png");
     // }
     
     // //EX12
     // {
     //     sil::Image image{500/*width*/, 500/*height*/};
     //     cercle(image);
-    //     image.save("output/ex12.png");
+    //     image.save("output/cercle.png");
     // }
 
-    //EX13
-    {
-        //animation();
-    }
+    // //EX13
+    // {
+    //     //animation();
+    // }
 
-    //EX14
-    {
-        sil::Image image{500/*width*/, 500/*height*/};
-        rosace(image, 100, 10);
-        image.save("output/ex14.png");
-    }
+    // //EX14
+    // {
+    //     sil::Image image{500/*width*/, 500/*height*/};
+    //     rosace(image, 100, 10);
+    //     image.save("output/rosace.png");
+    // }
 
-    //EX15
-    {
-        sil::Image image{"images/logo.png"};
-        mosaique(image);
-        image.save("output/ex15.png");
-    }
+    // //EX15
+    // {
+    //     sil::Image image{"images/logo.png"};
+    //     mosaique(image);
+    //     image.save("output/mosaique.png");
+    // }
 
-    //EX16
-    {
-        sil::Image image{"images/logo.png"};
-        glitch(image);
-        image.save("output/ex16.png");
-    }
+    // //EX16
+    // {
+    //     sil::Image image{"images/logo.png"};
+    //     mosaique_miroir(image);
+    //     image.save("output/mosaique_miroir.png");
+    // }
 
-    //EX17
-    {
-        sil::Image image{"images/logo.png"};
-        tri(image);
-    }
+    // //EX17
+    // {
+    //     sil::Image image{"images/logo.png"};
+    //     glitch(image);
+    //     image.save("output/glitch.png");
+    // }
 
-    //EX18
-    {
-        fractale();
-    }
+    // //EX18
+    // {
+    //     sil::Image image{"images/logo.png"};
+    //     tri(image);
+    // }
+
+    // //EX19
+    // {
+    //     fractale();
+    // }
 
 }
