@@ -50,7 +50,7 @@ J'ai adapté la fonction cercle avec des paramètres pour pouvoir la réutiliser
 J'utilise std::cos et std::sin qui donne les coordonnées d'un point sur un cercle unitaire pour calculer la prochaine position.
 
 ## *<ins>♦ Ex 15 : Mosaïque</ins>*
-J'utilise la librairie OpenCv pour redimentionner mon image.
+
 
 ## *<ins>♦ Ex 16 : Mosaïque miroir</ins>*
 
@@ -59,3 +59,7 @@ J'utilise la librairie OpenCv pour redimentionner mon image.
 Probabilité très faible sinon l'image est trop succeptible de changer à chaque pixel et les modifications de se marcher dessus.
 Je récupère les longueur et largeur alétoirement pour faire un rectangle dont je récupère les pixels que j'échange avec les pixels d'un autre rectangle choisi aussi au hasard dans toute l'image avec une marge du rectangle à échanger. Ce qui impose une condition sur où en est le parcours complet de l'image et la taille du rectangle chosie.
 Après j'utilise swap pour changer depuis le pixel actuel jusqu'au pixel actuel + la taille de mon rectangle.
+
+## *<ins>♦ Ex 18 : Tri de pixels</ins>*
+Je crée une nouvelle image dans laquelle je vais recopier le tableau des pixels de l'image que je veux trier en récupérant d'abord les lignes puis les colonnes (on pourrait inverser le procédé pour obtenir un autre résultat). Puis on peut trier le tableau selon la condition que l'on veut, j'ai choisi ici le bleu.
+Enfin je recopie le tableau ligne par ligne (on pourrait interchanger ici aussi ou choisir la façon dont on va disposer les pixels en introduisant une formule selon x, y, la longueur ou la largeur).

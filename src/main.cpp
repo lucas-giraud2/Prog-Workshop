@@ -3,7 +3,8 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
-//#include <opencv2/opencv.hpp>
+#include <complex>
+
 #include "random.hpp"
 
 //algorithm pour utiliser std::sort
@@ -147,13 +148,13 @@ void rosace(sil::Image& image, int rayon, int nb_petale){
 }
 
 void mosaique(sil::Image& image){
-    // cv::Mat new_image = cv::imread("../images/logo.png");
-    // cv::Mat image_fixe;
-    // cv::resize(new_image, image_fixe, cv::Size(image.width()/10, image.height()/10), 0, 0, cv::INTER_LINEAR);
-    // cv::imwrite("../output/resize.png", image_fixe);
-    // cv::imshow("",image_fixe);
-    // cv::waitKey(0);
-
+    sil::Image new_image{image.width()*5/*width*/, image.height()*5/*height*/};
+    for(int x{0}; x<new_image.width(); x++){
+        for(int y{0}; y<new_image.height(); y++){
+            new_image.pixel(x, y) = image.pixel(x%image.width(), y%image.height());
+        }
+    }
+    image = new_image;
 }
 
 void glitch(sil::Image& image){
@@ -178,21 +179,49 @@ void glitch(sil::Image& image){
 
 void tri(sil::Image& image){
     sil::Image new_image{image.width()/*width*/, image.height()/*height*/};
-    std::vector<glm::vec3> v(image.width()+image.height());
-    for (int x{0}; x < image.width(); x++){
-        for (int y{0}; y < image.height(); y++){
-            v[x+y] = image.pixel(x, y);
+    int taille{image.width()*image.height()};
+    std::vector<glm::vec3> v(taille);
+    int i{0};
+    for (int y{0}; y < image.height(); y++){
+        for (int x{0}; x < image.width(); x++){
+            if(i <=taille){
+                v[i] = image.pixel(x, y);
+                i += 1;
+            }
         }
     }
     std::sort(v.begin(), v.end(), [](glm::vec3 const& color1, glm::vec3 const& color2){
-        return color1.r < color2.r;
+        return color1.b < color2.b;
     });
     for (int x{0}; x < new_image.width(); x++){
         for (int y{0}; y < new_image.height(); y++){
-            new_image.pixel(x, y) = v[x+y];
+            new_image.pixel(x, y) = v[x+y*new_image.width()];
         }
     }
-    new_image.save("output/ex16.png");
+    new_image.save("output/ex17.png");
+}
+
+void fractale(){
+    sil::Image image{500/*width*/, 500/*height*/};
+    for (int x{0}; x < image.width(); x++){
+        for (int y{0}; y < image.height(); y++){
+            int i{0};
+            std::complex<float> z{0.f, 0.f};
+            while(i<=30 && std::abs(z) <= 2){
+                std::complex<float> c{4*x/500.f-3.f, 4*y/500.f-2.f};
+                z = z * z + c;
+                i += 1;
+            }
+            if(std::abs(z) <= 2){
+                image.pixel(x, y) = glm::vec3{1};
+            }
+            //gris = 0.2126 * r + 0.7152 * g + 0.0722 * b
+            else{
+                image.pixel(x,y) = glm::vec3{0};
+            }
+        }
+    }
+    image.save("output/ex18.png");
 }
 
 int main()
@@ -291,31 +320,36 @@ int main()
         //animation();
     }
 
-    //EX13
+    //EX14
     {
         sil::Image image{500/*width*/, 500/*height*/};
         rosace(image, 100, 10);
-        image.save("output/ex13.png");
+        image.save("output/ex14.png");
     }
-
-    //EX14
-    // {
-    //     sil::Image image{"images/logo.png"};
-    //     mosaique(image);
-    // }
 
     //EX15
     {
         sil::Image image{"images/logo.png"};
-        glitch(image);
+        mosaique(image);
         image.save("output/ex15.png");
     }
 
     //EX16
     {
         sil::Image image{"images/logo.png"};
+        glitch(image);
+        image.save("output/ex16.png");
+    }
+
+    //EX17
+    {
+        sil::Image image{"images/logo.png"};
         tri(image);
     }
 
+    //EX18
+    {
+        fractale();
+    }
 
 }
