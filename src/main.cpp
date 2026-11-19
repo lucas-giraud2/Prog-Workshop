@@ -228,6 +228,17 @@ void fractale(){
     image.save("output/fractale.png");
 }
 
+void convolution(sil::Image& image){
+    sil::Image new_image{500/*width*/, 500/*height*/};
+    for (int x{1}; x < image.width()-1; x++){
+        for (int y{1}; y < image.height()-1; y++){
+            new_image.pixel(x-1, y-1) = (image.pixel(x-1, y-1)/9.f + image.pixel(x-1, y)/9.f + image.pixel(x-1, y+1)/9.f +
+                                        image.pixel(x, y+1)/9.f + image.pixel(x+1, y+1)/9.f + image.pixel(x+1, y)/9.f  +
+                                        image.pixel(x+1, y-1)/9.f  + image.pixel(x, y-1)/9.f + image.pixel(x, y)/9.f) /9.f; 
+        }
+    }
+}
+
 int main()
 {
     set_random_seed(1);
@@ -327,7 +338,7 @@ int main()
     // //EX14
     // {
     //     sil::Image image{500/*width*/, 500/*height*/};
-    //     rosace(image, 100, 10);
+    //     rosace(image, 100, 12);
     //     image.save("output/rosace.png");
     // }
 
@@ -362,5 +373,12 @@ int main()
     // {
     //     fractale();
     // }
+
+    //EX20
+    {
+        sil::Image image{"images/logo.png"};
+        convolution(image);
+        image.save("output/convolution.png");
+    }
 
 }
