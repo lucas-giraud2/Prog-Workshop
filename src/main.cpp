@@ -228,15 +228,20 @@ void fractale(){
     image.save("output/fractale.png");
 }
 
+void resize(sil::Image& image){
+    
+}
+
 void convolution(sil::Image& image){
-    sil::Image new_image{500/*width*/, 500/*height*/};
+    sil::Image new_image = image;
     for (int x{1}; x < image.width()-1; x++){
         for (int y{1}; y < image.height()-1; y++){
             new_image.pixel(x-1, y-1) = (image.pixel(x-1, y-1)/9.f + image.pixel(x-1, y)/9.f + image.pixel(x-1, y+1)/9.f +
                                         image.pixel(x, y+1)/9.f + image.pixel(x+1, y+1)/9.f + image.pixel(x+1, y)/9.f  +
-                                        image.pixel(x+1, y-1)/9.f  + image.pixel(x, y-1)/9.f + image.pixel(x, y)/9.f) /9.f; 
+                                        image.pixel(x+1, y-1)/9.f  + image.pixel(x, y-1)/9.f + image.pixel(x, y)/9.f); 
         }
     }
+    new_image.save("output/convolution.png");
 }
 
 int main()
@@ -376,9 +381,8 @@ int main()
 
     //EX20
     {
-        sil::Image image{"images/logo.png"};
+        sil::Image image{"images/photo.jpg"};
         convolution(image);
-        image.save("output/convolution.png");
     }
 
 }
