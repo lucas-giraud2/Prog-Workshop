@@ -165,7 +165,7 @@ void mosaique_miroir(sil::Image& image, int nb){
                 new_image.pixel(x, y) = image.pixel(x%image.width(), y%image.height());
             }
             else{
-                std::swap(new_image.pixel(x, y), image.pixel(image.width()-(x%image.width()-1), y%image.height()));
+                std::swap(new_image.pixel(x, y), image.pixel(image.width()-(x%image.width()+1), y%image.height()));
             }
         }
     }
