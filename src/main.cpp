@@ -440,7 +440,7 @@ int main()
         image.save("output/convolution_blur.png");
     }
 
-    //EX20 contour
+    //EX20.1 contour
     {
         sil::Image image{"images/logo.png"};
         std::array<std::array<float, 3>, 3> kernel_contour {{
