@@ -3,11 +3,11 @@
 Passage des canaux rouge et bleu à 0. (pas besoin des x et y)
 
 ## *<ins>♦ Ex 2 : Échanger les canaux</ins>*
-Utilisation de std::swap(color.g, color.b) poiur échanger les canaux vert et bleu.
+Utilisation de std::swap(color.g, color.b) pour échanger les canaux vert et bleu.
 Sinon manuellement on doit mémoriser les composantes de chaque pixel avant de faire une modification pour ne pas perdre l'information.
 
 ## *<ins>♦ Ex 3 : Noir & Blanc</ins>*
-Il faut que tous les canaux soit égaux. J'ai choisi de garder le bleu comme référence.
+Il faut que tous les canaux soit égaux. La formule du gris est gris = 0.2126 * r + 0.7152 * g + 0.0722 * b
 
 ## *<ins>♦ Ex 4 : Négatif</ins>*
 Création d'une base {1, 1, 1} pour ne représenter que le blanc (le max), puis on calcule la différence entre ce blanc et la couleur du pixel pour inverser la couleur.
@@ -22,16 +22,16 @@ Parcours de la moitié de l'image en x (dans la longueur) et on utilise std::swa
 Utilisation des fonctions random fournies, ici true_with_probability et random_float pour choisir aléatoirement un pixel est changer ses couleurs de façon aussi aléatoire.
 
 ## *<ins>♦ Ex 8 : Rotation de 90°</ins>*
-Mathématiquement, les axes sont interchangé lors d'une rotation à 90°. Ici x devient y et y devient -x. On change donc les pixels en créant une nouvelle image noir qui à pour dimension en x en y et les y en x et en faisant attention à rester dans l'image au moment de remplir la nouvelle image.
+Mathématiquement, les axes sont interchangés lors d'une rotation à 90°. Ici x devient y et y devient -x. On change donc les pixels en créant une nouvelle image noir qui à pour dimension en x en y et les y en x et en faisant attention à rester dans l'image au moment de remplir la nouvelle image.
 
 ## *<ins>♦ Ex 9 : RDB Split</ins>*
 On crée une nouvelle image dans laquelle on va recopier les différents canaux de couleurs en ajoutant des contraintes.
-Je fais un décalage de 15 pixels vers la droite pour le canakl rouge et 15 vers la gauche pour le canal bleu. On doit mettre une condition de marge pour ne pas dépasser, qui sera donc ici de 15 pixels.
+Je fais un décalage de 15 pixels vers la droite pour le canal rouge et 15 vers la gauche pour le canal bleu. On doit mettre une condition de marge pour ne pas dépasser, qui sera donc ici de 15 pixels.
 
 ## *<ins>♦ Ex 10 : Luminosité</ins>*
-- J'utilise la fonction carré pour assombrir l'image, en mutipliant les canaux de chaque pixel par eux-mêmes.
+- J'utilise la fonction carré pour assombrir l'image, en multipliant les canaux de chaque pixel par eux-mêmes.
 
-- J'utilise la focntion std::pow() de la librairie cmath pour éclairer l'image. Il suffit de choisir un flotant inférieur à 1 pour avoir cet effet, ici 0.4f.
+- J'utilise la fonction std::pow() de la librairie cmath pour éclairer l'image. Il suffit de choisir un flottant inférieur à 1 pour avoir cet effet, ici 0.4f.
 
 ## *<ins>♦ Ex 11 : Disque</ins>*
 Grace à l'équation d'un cercle adapté au centre de l'image n'étant pas l'origine, on peut mettre une condition sur le changement des pixels.
@@ -39,7 +39,7 @@ Grace à l'équation d'un cercle adapté au centre de l'image n'étant pas l'ori
 
 
 ## *<ins>♦ Ex 12 : Cercle</ins>*
-Le cercle fonctionne exactement de la même façon que le disque, on doit simplement rajouter une condition qui évolue en focntion de la thickness, pour créer un rebord. (l'intérieur de tout le disque n'est plus en blanc)
+Le cercle fonctionne exactement de la même façon que le disque, on doit simplement rajouter une condition qui évolue en fonction de la thickness, pour créer un rebord. (l'intérieur de tout le disque n'est plus en blanc)
 
 ## *<ins>♦ Ex 13 : Animation</ins>*
 J'ai adapté la fonction disque avec des paramètres pour pouvoir la réutiliser. Il ne reste plus qu'à se déplacer de quelques pixels et refaire un disque à chaque fois en sauvegardant bien chaque image et en recréant une nouvelle image à chaque itération sinon on garde les disques précédents.
@@ -56,8 +56,8 @@ J'utilise std::cos et std::sin qui donne les coordonnées d'un point sur un cerc
 
 
 ## *<ins>♦ Ex 17 : Glitch</ins>*
-Probabilité très faible sinon l'image est trop succeptible de changer à chaque pixel et les modifications de se marcher dessus.
-Je récupère les longueur et largeur alétoirement pour faire un rectangle dont je récupère les pixels que j'échange avec les pixels d'un autre rectangle choisi aussi au hasard dans toute l'image avec une marge du rectangle à échanger. Ce qui impose une condition sur où en est le parcours complet de l'image et la taille du rectangle chosie.
+Probabilité très faible sinon l'image est trop susceptible de changer à chaque pixel et les modifications de se marcher dessus.
+Je récupère les longueur et largeur aléatoirement pour faire un rectangle dont je récupère les pixels que j'échange avec les pixels d'un autre rectangle choisi aussi au hasard dans toute l'image avec une marge du rectangle à échanger. Ce qui impose une condition sur où en est le parcours complet de l'image et la taille du rectangle choisie.
 Après j'utilise swap pour changer depuis le pixel actuel jusqu'au pixel actuel + la taille de mon rectangle.
 
 ## *<ins>♦ Ex 18 : Tri de pixels</ins>*

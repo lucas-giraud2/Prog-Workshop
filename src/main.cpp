@@ -157,8 +157,31 @@ void mosaique(sil::Image& image){
     image = new_image;
 }
 
-void mosaique_miroir(sil::Image& image){
+void mosaique_miroir(sil::Image& image, int nb){
+    sil::Image new_image{image.width()*nb/*width*/, image.height()*nb/*height*/};
+    for(int x{0}; x<new_image.width(); x++){
+        for(int y{0}; y<new_image.height(); y++){
+            if((x/image.width())%2 == 0){
+                new_image.pixel(x, y) = image.pixel(x%image.width(), y%image.height());
+            }
+            else{
+                std::swap(new_image.pixel(x, y), image.pixel(image.width()-(x%image.width()-1), y%image.height()));
+            }
+        }
+    }
+    image = new_image;
+}
 
+void mosaique_miroir_fail(sil::Image& image, int nb){
+    sil::Image new_image{image.width()*5/*width*/, image.height()*5/*height*/};
+    for(int x{0}; x<new_image.width(); x++){
+        for(int y{0}; y<new_image.height(); y++){
+            if((x%image.width()/nb)%2 == 0){
+                new_image.pixel(x, y) = image.pixel(x%image.width(), y%image.height());
+            }
+        }
+    }
+    image = new_image;
 }
 
 void glitch(sil::Image& image){
@@ -228,8 +251,14 @@ void fractale(){
     image.save("output/fractale.png");
 }
 
-void resize(sil::Image& image){
-    
+sil::Image resize(sil::Image& image){
+    sil::Image new_image{image.width()*2/*width*/, image.height()*2/*height*/};
+    for (int x{0}; x < new_image.width(); x++){
+        for (int y{0}; y < new_image.height(); y++){
+            new_image.pixel(x, y) = image.pixel(x*image.width()/2.f, y*image.height()/2.f);
+        }
+    }
+    return new_image;
 }
 
 void convolution(sil::Image& image){
@@ -354,12 +383,19 @@ int main()
     //     image.save("output/mosaique.png");
     // }
 
-    // //EX16
-    // {
-    //     sil::Image image{"images/logo.png"};
-    //     mosaique_miroir(image);
-    //     image.save("output/mosaique_miroir.png");
-    // }
+    //EX16_fails
+    {
+        sil::Image image{"images/logo.png"};
+        mosaique_miroir_fail(image, 4);
+        image.save("output/mosaique_miroir_fail.png");
+    }
+
+    //EX16
+    {
+        sil::Image image{"images/logo.png"};
+        mosaique_miroir(image, 4);
+        image.save("output/mosaique_miroir.png");
+    }
 
     // //EX17
     // {
@@ -382,6 +418,7 @@ int main()
     //EX20
     {
         sil::Image image{"images/photo.jpg"};
+        //sil::Image new_image = resize(image);
         convolution(image);
     }
 
