@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <complex>
+#include <array>
 
 #include "random.hpp"
 
@@ -165,7 +166,8 @@ void mosaique_miroir(sil::Image& image, int nb){
                 new_image.pixel(x, y) = image.pixel(x%image.width(), y%image.height());
             }
             else{
-                std::swap(new_image.pixel(x, y), image.pixel(image.width()-(x%image.width()+1), y%image.height()));
+                new_image.pixel(x, y) = image.pixel(image.width()-(x%image.width()+1), y%image.height());
+            //     std::swap(new_image.pixel(x, y), image.pixel(image.width()-(x%image.width()+1), y%image.height()));
             }
         }
     }
@@ -251,26 +253,36 @@ void fractale(){
     image.save("output/fractale.png");
 }
 
-sil::Image resize(sil::Image& image){
-    sil::Image new_image{image.width()*2/*width*/, image.height()*2/*height*/};
+sil::Image resize(sil::Image& image, float scale){
+    sil::Image new_image{static_cast<int>(image.width()*scale)/*width*/, static_cast<int>(image.height()*scale)/*height*/};
     for (int x{0}; x < new_image.width(); x++){
         for (int y{0}; y < new_image.height(); y++){
-            new_image.pixel(x, y) = image.pixel(x*image.width()/2.f, y*image.height()/2.f);
+            new_image.pixel(x, y) = image.pixel(x/scale, y/scale);
         }
     }
     return new_image;
 }
 
-void convolution(sil::Image& image){
+void convolution(sil::Image& image, std::array<std::array<float, 3>, 3> kernel){
     sil::Image new_image = image;
-    for (int x{1}; x < image.width()-1; x++){
-        for (int y{1}; y < image.height()-1; y++){
-            new_image.pixel(x-1, y-1) = (image.pixel(x-1, y-1)/9.f + image.pixel(x-1, y)/9.f + image.pixel(x-1, y+1)/9.f +
-                                        image.pixel(x, y+1)/9.f + image.pixel(x+1, y+1)/9.f + image.pixel(x+1, y)/9.f  +
-                                        image.pixel(x+1, y-1)/9.f  + image.pixel(x, y-1)/9.f + image.pixel(x, y)/9.f); 
+    for (int x{0}; x < image.width(); x++){
+        for (int y{0}; y < image.height(); y++){
+            glm::vec3 sum{0.f}; 
+            int i{0};
+            for (int distance_x{-1}; distance_x <= 1; distance_x++){
+                for (int distance_y{-1}; distance_y <= 1; distance_y++){
+                    int voisin_x = x + distance_x;
+                    int voisin_y = y + distance_y;
+                    if(voisin_x >= 0 && voisin_x < image.width() && voisin_y >= 0 && voisin_y < image.height()){
+                        sum += image.pixel(voisin_x, voisin_y) * kernel[distance_y + 1][distance_x + 1];
+                        i++;
+                    }
+                }
+            }
+            new_image.pixel(x, y) = sum;
         }
     }
-    new_image.save("output/convolution.png");
+    image = new_image;
 }
 
 int main()
@@ -383,17 +395,17 @@ int main()
     //     image.save("output/mosaique.png");
     // }
 
-    //EX16_fails
-    {
-        sil::Image image{"images/logo.png"};
-        mosaique_miroir_fail(image, 4);
-        image.save("output/mosaique_miroir_fail.png");
-    }
+    //  //EX16_fails
+    // {
+    //     sil::Image image{"images/logo.png"};
+    //     mosaique_miroir_fail(image, 4);
+    //     image.save("output/mosaique_miroir_fail.png");
+    // }
 
     //EX16
     {
         sil::Image image{"images/logo.png"};
-        mosaique_miroir(image, 4);
+        mosaique_miroir(image, 6);
         image.save("output/mosaique_miroir.png");
     }
 
@@ -415,11 +427,29 @@ int main()
     //     fractale();
     // }
 
-    //EX20
+    //EX20 blur
     {
-        sil::Image image{"images/photo.jpg"};
-        //sil::Image new_image = resize(image);
-        convolution(image);
+        sil::Image image{"images/logo.png"};
+        image = resize(image, 0.5);
+        std::array<std::array<float, 3>, 3> kernel_blur{{
+            {0.0625, 0.125, 0.0625},
+            {0.125, 0.25, 0.125},
+            {0.0625, 0.125, 0.0625}
+        }};
+        convolution(image, kernel_blur);
+        image.save("output/convolution_blur.png");
+    }
+
+    //EX20 contour
+    {
+        sil::Image image{"images/logo.png"};
+        std::array<std::array<float, 3>, 3> kernel_contour {{
+            {-1.f, -1.f, -1.f},
+            {-1.f,  8.f, -1.f},
+            {-1.f, -1.f, -1.f}
+        }};
+        convolution(image, kernel_contour);
+        image.save("output/convolution_contour.png");
     }
 
 }
