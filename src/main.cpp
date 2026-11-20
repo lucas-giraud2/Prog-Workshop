@@ -173,11 +173,26 @@ void mosaique_miroir(sil::Image& image, int nb){
     image = new_image;
 }
 
-void mosaique_miroir_fail(sil::Image& image, int nb){
+void mosaique_miroir_fail_1(sil::Image& image, int nb){
     sil::Image new_image{image.width()*5/*width*/, image.height()*5/*height*/};
     for(int x{0}; x<new_image.width(); x++){
         for(int y{0}; y<new_image.height(); y++){
-            if((x%image.width())%2 == 0){
+            if((x/nb)%2 == 0){
+                new_image.pixel(x, y) = image.pixel(x%image.width(), y%image.height());
+            }
+            else{
+                new_image.pixel(x, y) = image.pixel(image.width()-(x%image.width()+1), y%image.height());
+            }
+        }
+    }
+    image = new_image;
+}
+
+void mosaique_miroir_fail_2(sil::Image& image, int nb){
+    sil::Image new_image{image.width()*5/*width*/, image.height()*5/*height*/};
+    for(int x{0}; x<new_image.width(); x++){
+        for(int y{0}; y<new_image.height(); y++){
+            if((x/nb)%2 == 0){
                 new_image.pixel(x, y) = image.pixel(x%image.width(), y%image.height());
             }
         }
@@ -394,11 +409,18 @@ int main()
         image.save("output/mosaique.png");
     }
 
-    //EX16_fails
+    //EX16_fail
     {
         sil::Image image{"images/logo.png"};
-        mosaique_miroir_fail(image, 5);
-        image.save("output/mosaique_miroir_fail.png");
+        mosaique_miroir_fail_1(image, 5);
+        image.save("output/mosaique_miroir_fail_1.png");
+    }
+
+    //EX16_fail
+    {
+        sil::Image image{"images/logo.png"};
+        mosaique_miroir_fail_2(image, 5);
+        image.save("output/mosaique_miroir_fail_2.png");
     }
 
     //EX16
@@ -428,7 +450,7 @@ int main()
 
     //EX20 blur
     {
-        sil::Image image{"images/logo.png"};
+        sil::Image image{"images/photo.jpg"};
         image = resize(image, 0.5);
         std::array<std::array<float, 3>, 3> kernel_blur{{
             {0.0625, 0.125, 0.0625},

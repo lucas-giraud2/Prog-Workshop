@@ -11,7 +11,7 @@ Sinon manuellement on doit mémoriser les composantes de chaque pixel avant de f
 ![image](./output/echange_canaux.png)
 
 ## *<ins>♦ Ex 3 : Noir & Blanc</ins>*
-Il faut que tous les canaux soit égaux. La formule du gris est gris = 0.2126 * r + 0.7152 * g + 0.0722 * b
+Il faut que tous les canaux soit égaux. Ou, la formule du gris est gris = 0.2126 * r + 0.7152 * g + 0.0722 * b
 
 ![image](./output/gris.png)
 
@@ -36,9 +36,9 @@ Utilisation des fonctions random fournies, ici true_with_probability et random_f
 ![image](./output/bruit.png)
 
 ## *<ins>♦ Ex 8 : Rotation de 90°</ins>*
-Mathématiquement, les axes sont interchangés lors d'une rotation à 90°. Ici x devient y et y devient -x. On change donc les pixels en créant une nouvelle image noir qui à pour dimension en x en y et les y en x et en faisant attention à rester dans l'image au moment de remplir la nouvelle image.
+Mathématiquement, les axes sont interchangés lors d'une rotation à 90°.
 
-![image](./output/negatif.png)
+![image](./output/rota90.png)
 
 ## *<ins>♦ Ex 9 : RGB Split</ins>*
 On crée une nouvelle image dans laquelle on va recopier les différents canaux de couleurs en ajoutant des contraintes.
@@ -68,7 +68,6 @@ Le cercle fonctionne exactement de la même façon que le disque, on doit simple
 
 ## *<ins>♦ Ex 13 : Animation</ins>*
 J'ai adapté la fonction disque avec des paramètres pour pouvoir la réutiliser. Il ne reste plus qu'à se déplacer de quelques pixels et refaire un disque à chaque fois en sauvegardant bien chaque image et en recréant une nouvelle image à chaque itération sinon on garde les disques précédents.
-Puis il ne reste plus qu'à transformer les images en animation.
 
 ![image](./output/animation/anim.gif)
 
@@ -86,13 +85,40 @@ On a besoin de se servir du module (reste de la division euclidienne) pour adapt
 ## *<ins>♦ Ex 16 : Mosaïque miroir</ins>*
 On a besoin de savoir en fonction de la taille de l'image de base si on est sur une colonne paire pour recopier comme dans mosaïque. Sinon on recopie à l'envers.
 
-- On peut faire un effet un peu rétro
+![image](./output/mosaique_miroir.png)
+
+- Raté n°1 : (x/nb)%2 
+Comme on divise 2 entier on a le reste de la division euclidienne modulo 2 cela explique qu'on est des bandes noirs espacé du même interval.
+<ins>*Remarque*</ins> : Si nb augment alors l'espace deviendra plus grand.
+
+![image](./output/mosaique_miroir_fail_2.png)
+
+- Raté n°2 : Remplissage des espaces par les pixels de l'image de base.
+
+![image](./output/mosaique_miroir_fail_1.png)
 
 ## *<ins>♦ Ex 17 : Glitch</ins>*
 Probabilité très faible sinon l'image est trop susceptible de changer à chaque pixel et les modifications de se marcher dessus.
-Je récupère les longueur et largeur aléatoirement pour faire un rectangle dont je récupère les pixels que j'échange avec les pixels d'un autre rectangle choisi aussi au hasard dans toute l'image avec une marge du rectangle à échanger. Ce qui impose une condition sur où en est le parcours complet de l'image et la taille du rectangle choisie.
+La marge des rectangles impose une condition sur le parcours complet de l'image.
 Après j'utilise swap pour changer depuis le pixel actuel jusqu'au pixel actuel + la taille de mon rectangle.
 
+![image](./output/glitch.png)
+
 ## *<ins>♦ Ex 18 : Tri de pixels</ins>*
-Je crée une nouvelle image dans laquelle je vais recopier le tableau des pixels de l'image que je veux trier en récupérant d'abord les lignes puis les colonnes (on pourrait inverser le procédé pour obtenir un autre résultat). Puis on peut trier le tableau selon la condition que l'on veut, j'ai choisi ici le bleu.
-Enfin je recopie le tableau ligne par ligne (on pourrait interchanger ici aussi ou choisir la façon dont on va disposer les pixels en introduisant une formule selon x, y, la longueur ou la largeur).
+Je trie en récupérant d'abord les lignes puis les colonnes (on pourrait inverser le procédé pour obtenir un autre résultat). Puis on peut trier le tableau selon la condition que l'on veut, j'ai choisi ici le bleu.
+Enfin je recopie le tableau ligne par ligne (on pourrait interchanger ici aussi ou choisir la façon dont on va disposer les pixels en introduisant une formule selon x, y).
+
+![image](./output/tri.png)
+
+## *<ins>♦ Ex 19 : Fractale de Mandelbrot</ins>*
+
+![image](./output/fractale.png)
+
+## *<ins>♦ Ex 20 : Convolution</ins>*
+Je resize l'image avec une fonction crée pour dans le but de mieux voir l'effet de flou.
+Ajout du'n double tableau pour gérer les différents kernel et réutiliser la même fonction de convolution.
+- Box Blur
+![image](./output/convolution_blur.png)
+
+- Contour
+![image](./output/convolution_contour.png)
